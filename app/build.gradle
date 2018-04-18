@@ -1,0 +1,52 @@
+//noinspection GradleCompatible
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        applicationId "io.github.trubitsyn.diary"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 20
+        versionName "1.6.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.squareup:android-times-square:1.6.5@aar'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jsoup:jsoup:1.10.2"
+    compile 'net.danlew:android.joda:2.9.4.1'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex:rxkotlin:0.60.0'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    testCompile "junit:junit:4.12"
+}
+
+repositories {
+    mavenCentral()
+}

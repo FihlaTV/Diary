@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Домашнее задание</string>
+    <string name="error_network">Ошибка сети.</string>
+    <string name="action_select_date">Выбрать дату</string>
+
+    <string name="activity_calendar_title">Выберите дату</string>
+    <string name="action_finish">Выбрать</string>
+
+    <string name="tasks_for_date">Задание на %s</string>
+
+    <string name="login_required">Сначала нужно войти</string>
+
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+
+    <string name="action_login">Войти</string>
+    <string name="action_logout">Выйти</string>
+
+    <string name="error_login">Ошибка. Проверьте логин, пароль и подключение.</string>
+    <string name="action_login_nopassword">Войти без пароля</string>
+</resources>
