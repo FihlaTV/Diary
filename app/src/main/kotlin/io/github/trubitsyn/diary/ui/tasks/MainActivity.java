@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainViewModel.Dat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        viewModel = new MainViewModel(this);
+        viewModel = new MainViewModel(this, this);
         binding.setViewModel(viewModel);
 
         LocalDateTime today = LocalDateTimeUtil.todayDateTime();
