@@ -24,7 +24,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import kotlin.properties.Delegates
 
-object NetworkClient {
+class NetworkClient {
     var cookies: MutableMap<String, String> by Delegates.notNull()
     val root = "http://localhost/"
     val loginUrl = "login.php"

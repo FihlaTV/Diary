@@ -18,8 +18,8 @@ package io.github.trubitsyn.diary.ui.tasks
 
 import android.databinding.ObservableInt
 import android.view.View
+import io.github.trubitsyn.diary.api.DataSource
 import io.github.trubitsyn.diary.api.task.Task
-import io.github.trubitsyn.diary.api.task.Tasks
 import io.github.trubitsyn.diary.api.task.TasksMerger
 import io.github.trubitsyn.diary.formatter.SimpleTaskFormatter
 import io.github.trubitsyn.diary.formatter.TaskFormatter
@@ -31,12 +31,11 @@ import rx.lang.kotlin.FunctionSubscriber
 import rx.schedulers.Schedulers
 import java.util.*
 
-class MainViewModel(private val listener: DataListener) : ViewModel {
+class MainViewModel(private val dataSource: DataSource, private val listener: DataListener) : ViewModel {
     val progressVisibility = ObservableInt(View.VISIBLE)
     val dataVisibility = ObservableInt(View.GONE)
     val errorVisibility = ObservableInt(View.GONE)
     private val formatter = SimpleTaskFormatter()
-    private val tasks = Tasks()
 
     fun fetch(nextStudyDayDate: LocalDate) {
         listener.onBeginFetching(nextStudyDayDate)
@@ -108,7 +107,7 @@ class MainViewModel(private val listener: DataListener) : ViewModel {
     private fun fetchData(dates: List<LocalDate>): Observable<List<Task>> {
         return Observable.create { subscriber ->
             for (date in dates) {
-                subscriber.onNext(tasks.get(date))
+                subscriber.onNext(dataSource.getTasks(date))
             }
             subscriber.onCompleted()
         }
@@ -116,7 +115,7 @@ class MainViewModel(private val listener: DataListener) : ViewModel {
 
     private fun fetchData(date: LocalDate): Observable<List<Task>> {
         return Observable.create { subscriber ->
-            subscriber.onNext(tasks.get(date))
+            subscriber.onNext(dataSource.getTasks(date))
             subscriber.onCompleted()
         }
     }

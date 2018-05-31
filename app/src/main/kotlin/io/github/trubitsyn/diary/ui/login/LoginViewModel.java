@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import io.github.trubitsyn.diary.DiaryApplication;
 import io.github.trubitsyn.diary.R;
 import io.github.trubitsyn.diary.api.NetworkClient;
 import io.github.trubitsyn.diary.api.auth.Credentials;
@@ -38,12 +39,14 @@ public class LoginViewModel implements ViewModel {
     private final DataListener listener;
     private Context context;
     private CredentialsProvider credentialsProvider;
+    private NetworkClient networkClient;
 
     public LoginViewModel(Context context, CredentialsProvider credentialsProvider, DataListener listener) {
         this.context = context;
         this.credentialsProvider = credentialsProvider;
         this.listener = listener;
         this.credentials = credentialsProvider.retrieve();
+        this.networkClient = DiaryApplication.getInstance(context).getNetworkClient();
         this.loginEnabled = new ObservableBoolean(true);
     }
 
@@ -70,7 +73,7 @@ public class LoginViewModel implements ViewModel {
         Single.create(new Single.OnSubscribe<Void>() {
             @Override
             public void call(SingleSubscriber<? super Void> singleSubscriber) {
-                NetworkClient.INSTANCE.auth(credentials);
+                networkClient.auth(credentials);
                 singleSubscriber.onSuccess(null);
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleSubscriber<Void>() {

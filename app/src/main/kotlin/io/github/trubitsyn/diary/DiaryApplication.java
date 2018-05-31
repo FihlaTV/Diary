@@ -17,12 +17,18 @@
 package io.github.trubitsyn.diary;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import io.github.trubitsyn.diary.api.DataSource;
+import io.github.trubitsyn.diary.api.NetworkClient;
+
 public class DiaryApplication extends Application {
+    private DataSource dataSource;
+    private NetworkClient networkClient;
 
     @Override
     public void onCreate() {
@@ -30,7 +36,19 @@ public class DiaryApplication extends Application {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
+
         JodaTimeAndroid.init(this);
         LeakCanary.install(this);
+
+        dataSource = null;
+        networkClient = null;
+    }
+
+    public static DiaryApplication getInstance(Context context) {
+        return (DiaryApplication) context.getApplicationContext();
+    }
+
+    public NetworkClient getNetworkClient() {
+        return networkClient;
     }
 }

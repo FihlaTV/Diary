@@ -19,11 +19,11 @@ package io.github.trubitsyn.diary.ui.login;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Process;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import io.github.trubitsyn.diary.DiaryApplication;
 import io.github.trubitsyn.diary.R;
 import io.github.trubitsyn.diary.api.NetworkClient;
 import io.github.trubitsyn.diary.api.auth.Credentials;
@@ -50,7 +50,8 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModel.D
                 @Override
                 public void call(Subscriber<? super Void> subscriber) {
                     try {
-                        NetworkClient.INSTANCE.auth(credentials);
+                        NetworkClient client = DiaryApplication.getInstance(LoginActivity.this).getNetworkClient();
+                        client.auth(credentials);
                     } catch (Exception e) {
                         subscriber.onError(e);
                     }
