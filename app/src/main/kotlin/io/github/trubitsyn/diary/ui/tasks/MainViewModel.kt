@@ -40,9 +40,9 @@ class MainViewModel(private val context: Context, private val listener: DataList
     val dataVisibility = ObservableInt(View.GONE)
     val errorVisibility = ObservableInt(View.GONE)
     private val formatter = SimpleTaskFormatter()
-    private val localDataSource = LocalDataSource()
-    private val remoteDataSource = RemoteDataSource(context)
-    private var currentDataSource: DataSource = remoteDataSource
+    private val localDataSource: DataSource = LocalDataSource()
+    private var remoteDataSource: DataSource? = RemoteDataSource(context)
+    private var currentDataSource: DataSource? = remoteDataSource
 
     fun fetch(nextStudyDayDate: LocalDate) {
         listener.onBeginFetching(nextStudyDayDate)
@@ -122,7 +122,7 @@ class MainViewModel(private val context: Context, private val listener: DataList
     private fun fetchData(dates: List<LocalDate>): Observable<List<Task>> {
         return Observable.create { subscriber ->
             for (date in dates) {
-                subscriber.onNext(currentDataSource.getTasks(date))
+                subscriber.onNext(currentDataSource?.getTasks(date))
             }
             subscriber.onCompleted()
         }
@@ -130,13 +130,14 @@ class MainViewModel(private val context: Context, private val listener: DataList
 
     private fun fetchData(date: LocalDate): Observable<List<Task>> {
         return Observable.create { subscriber ->
-            subscriber.onNext(currentDataSource.getTasks(date))
+            subscriber.onNext(currentDataSource?.getTasks(date))
             subscriber.onCompleted()
         }
     }
 
     override fun destroy() {
-
+        currentDataSource = null
+        remoteDataSource = null
     }
 
     interface DataListener {
