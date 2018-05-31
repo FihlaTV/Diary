@@ -23,11 +23,9 @@ import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import io.github.trubitsyn.diary.datasource.DataSource;
 import io.github.trubitsyn.diary.util.NetworkClient;
 
 public class DiaryApplication extends Application {
-    private DataSource dataSource;
     private NetworkClient networkClient;
 
     @Override
@@ -39,8 +37,6 @@ public class DiaryApplication extends Application {
 
         JodaTimeAndroid.init(this);
         LeakCanary.install(this);
-
-        dataSource = null;
         networkClient = null;
     }
 
