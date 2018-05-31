@@ -16,9 +16,13 @@
 
 package io.github.trubitsyn.diary.ui.tasks
 
+import android.content.Context
 import android.databinding.ObservableInt
 import android.view.View
+import android.widget.Toast
 import io.github.trubitsyn.diary.api.DataSource
+import io.github.trubitsyn.diary.api.LocalDataSource
+import io.github.trubitsyn.diary.api.RemoteDataSource
 import io.github.trubitsyn.diary.api.task.Task
 import io.github.trubitsyn.diary.api.task.TasksMerger
 import io.github.trubitsyn.diary.formatter.SimpleTaskFormatter
@@ -31,17 +35,19 @@ import rx.lang.kotlin.FunctionSubscriber
 import rx.schedulers.Schedulers
 import java.util.*
 
-class MainViewModel(private val dataSource: DataSource, private val listener: DataListener) : ViewModel {
+class MainViewModel(private val context: Context, private val listener: DataListener) : ViewModel {
     val progressVisibility = ObservableInt(View.VISIBLE)
     val dataVisibility = ObservableInt(View.GONE)
     val errorVisibility = ObservableInt(View.GONE)
     private val formatter = SimpleTaskFormatter()
+    private val localDataSource = LocalDataSource()
+    private val remoteDataSource = RemoteDataSource(context)
 
     fun fetch(nextStudyDayDate: LocalDate) {
         listener.onBeginFetching(nextStudyDayDate)
         showProgress()
 
-        fetchData(nextStudyDayDate).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(FunctionSubscriber<List<Task>>()
+        fetchData(nextStudyDayDate, remoteDataSource).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(FunctionSubscriber<List<Task>>()
                 .onNext {
                     val formatted = appendEntries(it, formatter)
                     listener.onDataFetched(formatted)
@@ -50,7 +56,8 @@ class MainViewModel(private val dataSource: DataSource, private val listener: Da
                     showData()
                 }
                 .onError {
-                    showError()
+                    fetchData(nextStudyDayDate, localDataSource)
+                    showUsingLocalData()
                 }
         )
     }
@@ -61,7 +68,7 @@ class MainViewModel(private val dataSource: DataSource, private val listener: Da
 
         val listOfLists = ArrayList<List<Task>>()
 
-        fetchData(dates).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(FunctionSubscriber<List<Task>>()
+        fetchData(dates, RemoteDataSource(context)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(FunctionSubscriber<List<Task>>()
                 .onNext {
                     listOfLists.add(it)
                 }
@@ -73,7 +80,8 @@ class MainViewModel(private val dataSource: DataSource, private val listener: Da
                     listener.onDataFetched(formatted)
                 }
                 .onError {
-                    showError()
+                    fetchData(dates, localDataSource)
+                    showUsingLocalData()
                 }
         )
     }
@@ -96,6 +104,10 @@ class MainViewModel(private val dataSource: DataSource, private val listener: Da
         errorVisibility.set(View.VISIBLE)
     }
 
+    private fun showUsingLocalData() {
+        Toast.makeText(context, "Используются локальные данные.", Toast.LENGTH_SHORT).show()
+    }
+
     private fun appendEntries(tasks: List<Task>, formatter: TaskFormatter): String {
         val builder = StringBuilder()
         for (task in tasks) {
@@ -104,7 +116,7 @@ class MainViewModel(private val dataSource: DataSource, private val listener: Da
         return builder.toString()
     }
 
-    private fun fetchData(dates: List<LocalDate>): Observable<List<Task>> {
+    private fun fetchData(dates: List<LocalDate>, dataSource: DataSource): Observable<List<Task>> {
         return Observable.create { subscriber ->
             for (date in dates) {
                 subscriber.onNext(dataSource.getTasks(date))
@@ -113,7 +125,7 @@ class MainViewModel(private val dataSource: DataSource, private val listener: Da
         }
     }
 
-    private fun fetchData(date: LocalDate): Observable<List<Task>> {
+    private fun fetchData(date: LocalDate, dataSource: DataSource): Observable<List<Task>> {
         return Observable.create { subscriber ->
             subscriber.onNext(dataSource.getTasks(date))
             subscriber.onCompleted()

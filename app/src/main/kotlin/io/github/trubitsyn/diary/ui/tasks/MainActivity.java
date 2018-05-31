@@ -38,7 +38,6 @@ import java.util.List;
 
 import io.github.trubitsyn.diary.R;
 import io.github.trubitsyn.diary.api.LocalDateTimeUtil;
-import io.github.trubitsyn.diary.api.RemoteDataSource;
 import io.github.trubitsyn.diary.databinding.MainActivityBinding;
 import io.github.trubitsyn.diary.ui.calendar.CalendarActivity;
 import io.github.trubitsyn.diary.ui.login.CredentialsProvider;
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainViewModel.Dat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        viewModel = new MainViewModel(new RemoteDataSource(this), this);
+        viewModel = new MainViewModel(this);
         binding.setViewModel(viewModel);
 
         LocalDateTime today = LocalDateTimeUtil.todayDateTime();

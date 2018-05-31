@@ -26,7 +26,6 @@ import io.github.trubitsyn.diary.DiaryApplication;
 import io.github.trubitsyn.diary.R;
 import io.github.trubitsyn.diary.api.NetworkClient;
 import io.github.trubitsyn.diary.api.auth.Credentials;
-import io.github.trubitsyn.diary.api.auth.DefaultCredentials;
 import io.github.trubitsyn.diary.ui.ViewModel;
 import rx.Single;
 import rx.SingleSubscriber;
@@ -59,7 +58,8 @@ public class LoginViewModel implements ViewModel {
     public void onLoginNoPasswordActionClick(View view) {
         loginEnabled.set(false);
         hideSoftKeyboard(view.getContext(), view);
-        auth(new DefaultCredentials());
+        //auth(new DefaultCredentials());
+        listener.onLoginFinished();
     }
 
     private void hideSoftKeyboard(Context context, View focus) {
