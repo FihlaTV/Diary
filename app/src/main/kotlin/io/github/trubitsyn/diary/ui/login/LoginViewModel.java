@@ -24,9 +24,10 @@ import android.widget.Toast;
 
 import io.github.trubitsyn.diary.DiaryApplication;
 import io.github.trubitsyn.diary.R;
-import io.github.trubitsyn.diary.api.NetworkClient;
-import io.github.trubitsyn.diary.api.auth.Credentials;
+import io.github.trubitsyn.diary.credentials.Credentials;
+import io.github.trubitsyn.diary.credentials.CredentialsProvider;
 import io.github.trubitsyn.diary.ui.ViewModel;
+import io.github.trubitsyn.diary.util.NetworkClient;
 import rx.Single;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;

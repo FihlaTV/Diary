@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.trubitsyn.diary.api;
+package io.github.trubitsyn.diary.util;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;

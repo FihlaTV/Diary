@@ -14,27 +14,8 @@
  * limitations under the License.
  */
 
-package io.github.trubitsyn.diary.api.task
+package io.github.trubitsyn.diary.task;
 
-import org.junit.Assert
-import org.junit.Test
-
-class TasksMergerTest {
-
-    @Test
-    fun shouldRemoveDuplicateSubjectsAndCombineTasks() {
-        val tasksWithDuplicates = listOf(
-                Task("A", "Task 1"),
-                Task("A", "Task 2")
-        )
-
-        val expectedMergedTasks = listOf(
-                Task("A", """Task 1; Task 2; """)
-        )
-
-        val tasksMerger = TasksMerger(tasksWithDuplicates)
-        val merged = tasksMerger.merge()
-
-        Assert.assertEquals(expectedMergedTasks, merged)
-    }
+public interface TaskFormatter {
+    String format(Task task);
 }

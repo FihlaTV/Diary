@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.trubitsyn.diary.api.task
+package io.github.trubitsyn.diary.task
 
-data class Task(val subject: String, val task: String)
+class SimpleTaskFormatter : TaskFormatter {
+    override fun format(task: Task): String {
+        return "${task.subject}: ${task.task}<br><br>"
+    }
+}

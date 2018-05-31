@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.squareup.timessquare.CalendarPickerView;
 
 import org.joda.time.LocalDate;
@@ -33,8 +34,8 @@ import java.util.Date;
 import java.util.List;
 
 import io.github.trubitsyn.diary.R;
-import io.github.trubitsyn.diary.api.LocalDateTimeUtil;
 import io.github.trubitsyn.diary.databinding.CalendarActivityBinding;
+import io.github.trubitsyn.diary.util.LocalDateTimeUtil;
 
 public class CalendarActivity extends AppCompatActivity {
     private CalendarActivityBinding binding;

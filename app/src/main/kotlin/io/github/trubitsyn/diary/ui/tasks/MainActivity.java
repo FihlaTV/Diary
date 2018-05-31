@@ -37,11 +37,11 @@ import java.util.Date;
 import java.util.List;
 
 import io.github.trubitsyn.diary.R;
-import io.github.trubitsyn.diary.api.LocalDateTimeUtil;
+import io.github.trubitsyn.diary.credentials.CredentialsProvider;
 import io.github.trubitsyn.diary.databinding.MainActivityBinding;
 import io.github.trubitsyn.diary.ui.calendar.CalendarActivity;
-import io.github.trubitsyn.diary.ui.login.CredentialsProvider;
 import io.github.trubitsyn.diary.ui.login.LoginActivity;
+import io.github.trubitsyn.diary.util.LocalDateTimeUtil;
 
 public class MainActivity extends AppCompatActivity implements MainViewModel.DataListener {
     private static final int CALENDAR_REQUEST_CODE = 0;

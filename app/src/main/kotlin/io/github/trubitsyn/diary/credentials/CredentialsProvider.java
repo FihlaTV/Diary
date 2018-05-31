@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.trubitsyn.diary.ui.login;
+package io.github.trubitsyn.diary.credentials;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import io.github.trubitsyn.diary.api.auth.Credentials;
 
 public class CredentialsProvider {
     private static final String PREFS_NAME = "default";

@@ -23,8 +23,8 @@ import com.squareup.leakcanary.LeakCanary;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import io.github.trubitsyn.diary.api.DataSource;
-import io.github.trubitsyn.diary.api.NetworkClient;
+import io.github.trubitsyn.diary.datasource.DataSource;
+import io.github.trubitsyn.diary.util.NetworkClient;
 
 public class DiaryApplication extends Application {
     private DataSource dataSource;

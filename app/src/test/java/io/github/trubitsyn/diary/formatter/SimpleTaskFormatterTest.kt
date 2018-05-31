@@ -16,7 +16,8 @@
 
 package io.github.trubitsyn.diary.formatter
 
-import io.github.trubitsyn.diary.api.task.Task
+import io.github.trubitsyn.diary.task.SimpleTaskFormatter
+import io.github.trubitsyn.diary.task.Task
 import org.junit.Assert
 
 import org.junit.Test

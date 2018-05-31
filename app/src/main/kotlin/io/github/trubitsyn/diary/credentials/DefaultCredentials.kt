@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package io.github.trubitsyn.diary.api.auth
+package io.github.trubitsyn.diary.credentials
 
-open class Credentials(var login: String?, var password: String?)
+class DefaultCredentials : Credentials("LOGIN", "PASSWORD")
