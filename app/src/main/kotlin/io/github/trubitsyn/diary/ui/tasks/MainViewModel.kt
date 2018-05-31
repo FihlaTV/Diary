@@ -20,6 +20,7 @@ import android.content.Context
 import android.databinding.ObservableInt
 import android.view.View
 import android.widget.Toast
+import io.github.trubitsyn.diary.R
 import io.github.trubitsyn.diary.datasource.DataSource
 import io.github.trubitsyn.diary.datasource.LocalDataSource
 import io.github.trubitsyn.diary.datasource.RemoteDataSource
@@ -108,7 +109,7 @@ class MainViewModel(private val context: Context, private val listener: DataList
     }
 
     private fun showUsingLocalData() {
-        Toast.makeText(context, "Используются локальные данные.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.local_data_used, Toast.LENGTH_SHORT).show()
     }
 
     private fun appendEntries(tasks: List<Task>, formatter: TaskFormatter): String {

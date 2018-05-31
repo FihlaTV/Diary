@@ -18,4 +18,5 @@
 
     <string name="error_login">Ошибка. Проверьте логин, пароль и подключение.</string>
     <string name="action_login_nopassword">Войти без пароля</string>
+    <string name="local_data_used">Используются локальные данные.</string>
 </resources>
