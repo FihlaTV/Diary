@@ -41,7 +41,7 @@ object NetworkClient {
         if (requestFailed) {
             throw IllegalStateException("Not logged in")
         } else {
-            cookies = response.csookies()
+            cookies = response.cookies()
         }
     }
 
