@@ -42,12 +42,13 @@ class MainViewModel(private val context: Context, private val listener: DataList
     private val formatter = SimpleTaskFormatter()
     private val localDataSource = LocalDataSource()
     private val remoteDataSource = RemoteDataSource(context)
+    private var currentDataSource: DataSource = remoteDataSource
 
     fun fetch(nextStudyDayDate: LocalDate) {
         listener.onBeginFetching(nextStudyDayDate)
         showProgress()
 
-        fetchData(nextStudyDayDate, remoteDataSource).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(FunctionSubscriber<List<Task>>()
+        fetchData(nextStudyDayDate).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(FunctionSubscriber<List<Task>>()
                 .onNext {
                     val formatted = appendEntries(it, formatter)
                     listener.onDataFetched(formatted)
@@ -56,8 +57,9 @@ class MainViewModel(private val context: Context, private val listener: DataList
                     showData()
                 }
                 .onError {
-                    fetchData(nextStudyDayDate, localDataSource)
+                    currentDataSource = localDataSource
                     showUsingLocalData()
+                    fetch(nextStudyDayDate)
                 }
         )
     }
@@ -68,7 +70,7 @@ class MainViewModel(private val context: Context, private val listener: DataList
 
         val listOfLists = ArrayList<List<Task>>()
 
-        fetchData(dates, RemoteDataSource(context)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(FunctionSubscriber<List<Task>>()
+        fetchData(dates).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(FunctionSubscriber<List<Task>>()
                 .onNext {
                     listOfLists.add(it)
                 }
@@ -80,8 +82,9 @@ class MainViewModel(private val context: Context, private val listener: DataList
                     listener.onDataFetched(formatted)
                 }
                 .onError {
-                    fetchData(dates, localDataSource)
+                    currentDataSource = localDataSource
                     showUsingLocalData()
+                    fetch(dates)
                 }
         )
     }
@@ -116,18 +119,18 @@ class MainViewModel(private val context: Context, private val listener: DataList
         return builder.toString()
     }
 
-    private fun fetchData(dates: List<LocalDate>, dataSource: DataSource): Observable<List<Task>> {
+    private fun fetchData(dates: List<LocalDate>): Observable<List<Task>> {
         return Observable.create { subscriber ->
             for (date in dates) {
-                subscriber.onNext(dataSource.getTasks(date))
+                subscriber.onNext(currentDataSource.getTasks(date))
             }
             subscriber.onCompleted()
         }
     }
 
-    private fun fetchData(date: LocalDate, dataSource: DataSource): Observable<List<Task>> {
+    private fun fetchData(date: LocalDate): Observable<List<Task>> {
         return Observable.create { subscriber ->
-            subscriber.onNext(dataSource.getTasks(date))
+            subscriber.onNext(currentDataSource.getTasks(date))
             subscriber.onCompleted()
         }
     }
