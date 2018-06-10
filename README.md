@@ -1,4 +1,4 @@
-# diary-android
+# diary
 
 <p align="center">
   <img 
