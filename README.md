@@ -1,4 +1,4 @@
-# diary
+# Diary
 
 <p align="center">
   <img 
