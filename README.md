@@ -10,7 +10,7 @@ Android application I used at school to look up
 my homework quickly.
 
 
-# Screenshots
+## Screenshots
 
 <div style="display:flex;">
 <img alt="Login" src="screenshots/login.png" width="30%">
@@ -18,7 +18,7 @@ my homework quickly.
 <img alt="Calendar" src="screenshots/tasks.png" width="30%">
 </div>
 
-# LICENSE
+## LICENSE
 
 ```
 Copyright 2016, 2018 Nikola Trubitsyn
